@@ -63,7 +63,9 @@ Exception copy logic is straightforward:
   1) If the exception class implements [CopyableThrowable], [CopyableThrowable.createCopy] is used.
      `null` can be returned from `createCopy` to opt-out specific exception from being recovered.
   2) If the exception class has class-specific fields not inherited from Throwable, the exception is not copied.
-  3) Otherwise, one of the public exception's constructor is invoked reflectively with an optional `initCause` call.  
+  3) Otherwise, one of the public exception's constructor is invoked reflectively with an optional `initCause` call. 
+  4) If the reflective copy has a changed message (exception class modifies 'message' parameter before passing it to the superclass), 
+     the exception is not copied in order to preserve a human-readable message. [CopyableThrowable] does not have such limitation.
 
 ## Debug agent
 
